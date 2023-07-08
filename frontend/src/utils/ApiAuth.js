@@ -17,6 +17,7 @@ class ApiAuth {
   // запроса для регистрации в сервисе яндекс
   postRegistrUser(email, password){
     return fetch(this._baseUrl + '/signup', {
+      credentials: 'include',
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -32,6 +33,7 @@ class ApiAuth {
   // запроса для авторизации в сервисе яндекс
   postAutoriseUser(email, password){
     return fetch(this._baseUrl + '/signin', {
+      credentials: 'include',
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -45,11 +47,10 @@ class ApiAuth {
   }
 
   // запрос для проверки валидности токена
-  getCheakTokenUser(jwt){
-
-    this._headers.Authorization = `Bearer ${jwt}`;
+  getCheakTokenUser(){
 
     return fetch(this._baseUrl + '/users/me', {
+      credentials: 'include',
       method: 'GET',
       headers: this._headers,
     })
@@ -60,7 +61,8 @@ class ApiAuth {
 }
 
 const apiAuth = new ApiAuth({ 
-  baseUrl: 'https://auth.nomoreparties.co',
+  baseUrl: 'http://localhost:4000',
+
   headers: {
     'Accept': "application/json",
     'Content-Type': 'application/json'

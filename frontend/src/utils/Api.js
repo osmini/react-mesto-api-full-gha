@@ -18,6 +18,7 @@ class Api {
   getInfoUserForServer(){
 
     return fetch(this._baseUrl + '/users/me', {
+    credentials: 'include',  // нужен во все запросы чтобы приходили куки
     headers: this._headers,
   })
   .then(res => {
@@ -29,6 +30,7 @@ class Api {
   patchInfoUserForServer(date){
 
     return fetch(this._baseUrl + '/users/me' , {
+      credentials: 'include',
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -45,6 +47,7 @@ class Api {
   patchAvatarForServer(avatar){
 
     return fetch(this._baseUrl + '/users/me/avatar', {
+      credentials: 'include',
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -60,6 +63,7 @@ class Api {
   getCardsForServer(){
     
     return fetch(this._baseUrl + '/cards', {
+      credentials: 'include',
       headers: this._headers,
       })
       .then(res => {
@@ -71,6 +75,7 @@ class Api {
   postCardsForServer(newCardDate){
   
     return fetch(this._baseUrl + '/cards', {
+      credentials: 'include',
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -87,6 +92,7 @@ class Api {
   deleteCardForServer(cardId){
     
     return fetch(this._baseUrl + `/cards/${cardId}`, {
+      credentials: 'include',
       method: 'DELETE',
       headers: this._headers,
     })
@@ -99,6 +105,7 @@ class Api {
   putLikeForServer(cardId){
     
     return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
+      credentials: 'include',
       method: 'PUT',
       headers: this._headers,
     })
@@ -111,6 +118,7 @@ class Api {
   deleteLikeForServer(cardId){
   
     return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
+      credentials: 'include',
       method: 'DELETE',
       headers: this._headers,
     })
@@ -121,9 +129,8 @@ class Api {
 }
 
 const api = new Api({ 
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-63',
+  baseUrl: 'http://localhost:4000',
   headers: {
-  authorization: 'c564ddc3-f58f-47cc-aac8-027be5fd7e89',
   'Content-Type': 'application/json'
 }});
 

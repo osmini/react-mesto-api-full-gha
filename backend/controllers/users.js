@@ -76,7 +76,14 @@ const login = (req, res, next) => {
         }
         // создаем и отдаем токен
         const token = jwt.sign({_id: user._id}, JWT_SECRET, {expiresIn: '7d'});
-        return res.status(200).send({token: token});
+        // Api и front находятся на разных доменах
+        res.cookie('jwt', token, {
+          maxAge: 604800,
+          httpOnly: true,
+          sameSite: true,
+          secure: true,
+        })
+        return res.status(200).send({ message: 'Успешный вход в систему' });
       });
     })
     .catch((err) => {
@@ -119,7 +126,7 @@ const getUsersById = (req, res, next) => {
       return;
     } else {
       next(err);
-    } 
+    }
   })
 };
 

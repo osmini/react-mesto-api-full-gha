@@ -114,7 +114,7 @@ function App() {
   function handleCardLike(card) {
 
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     if (!isLiked) {
       Api.putLikeForServer(card._id)
@@ -221,8 +221,8 @@ function App() {
   // запрос  на авторизацию
   function handleLogin(registerName, registerPassword){
     ApiAuth.postAutoriseUser(registerName, registerPassword)
-    .then((data) =>{
-      localStorage.setItem('jwt', data.token);
+    .then(() =>{
+
       setLoggenIn(true);
       setUserData(registerName);
       navigate('/');
@@ -238,8 +238,8 @@ function App() {
 
   // проверяем токен при первой загрузки
   useEffect(()=>{
-    const jwt = localStorage.getItem('jwt');
-    ApiAuth.getCheakTokenUser(jwt)
+
+    ApiAuth.getCheakTokenUser()
     .then((data) =>{
       if(data){
         setLoggenIn(true);
@@ -250,6 +250,7 @@ function App() {
       }
     })
     .catch((err) => {
+      setLoggenIn(false);
       console.error(err);
     })
   }, []);

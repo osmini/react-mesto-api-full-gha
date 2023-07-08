@@ -6,8 +6,10 @@ const mongoose = require('mongoose'); //подключаем mongoose
 const hendlerErrors = require('./middlewares/errors'); // импортируем модуль обработки ошибок
 const { errors } = require('celebrate'); // обработка ошибок от библиотеки celebrate (Валидация приходящих на сервер данных)
 const { requestLogger, errorLogger } = require('./middlewares/logger'); // импорт логеров
+const cors = require('cors') // подключаем бибилиотреку с работай ошибки cors
+const cookieParser = require('cookie-parser'); // библиотека для работы с куками
 
-const {PORT = 3000} = process.env; // вынесли порт по умолчанию в переменную окружения проекта
+const {PORT = 4000} = process.env; // вынесли порт по умолчанию в переменную окружения проекта
 
 // подключение к БД
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
@@ -20,6 +22,14 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 const app = express(); // создаем приложение
 
 // важно писать запуск middleware в определенной очередности запросов
+// подключаем обработку запросов с других портов и доменов
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}))
+
+app.use(cookieParser()); // подключаем обработку куки
+
 app.use(bodyParser.json()); // подключаем обработку json всех запросах к серверу
 
 app.use(requestLogger); // подключаем логгер запросов (важно подключить до огбработки роутов запросов)

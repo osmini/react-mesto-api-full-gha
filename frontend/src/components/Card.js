@@ -12,14 +12,14 @@ function Card(props){
   // Подписываемся на контекст TranslationContext  {isOwn && 
   const currentUser = useContext(CurrentUserContext);
 
-  const isOwn = owner._id === currentUser._id;
+  const isOwn = owner === currentUser._id;
 
   const cardDellButtonClassName = ( 
     `plases-card__del animation-hover ${!isOwn && 'plases-card__del_opasiti'}` 
   );
 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-  const isLiked = likes.some(i => i._id === currentUser._id);
+  const isLiked = likes.some(i => i === currentUser._id);
   // Создаём переменную, для отображения класса кнопки лайков
   const cardLikeButtonClassName = ( 
     `plases-card__like-button hover-like ${isLiked && 'plases-card__like_active'}` 
@@ -48,7 +48,7 @@ function Card(props){
       <div className="plases-card__card-title">
         <h2 className="plases-card__title">{name}</h2>
         <div className="plases-card__like">
-          <button className={cardLikeButtonClassName} onClick={handleLikeClick} type="button" aria-label="кнопка лайк"></button>
+          <button className={cardLikeButtonClassName} onClick={ handleLikeClick } type="button" aria-label="кнопка лайк"></button>
           <div className="plases-card__like-count">{likes.length}</div>
         </div>
       </div>
