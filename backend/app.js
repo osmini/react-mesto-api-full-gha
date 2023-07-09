@@ -9,10 +9,14 @@ const { requestLogger, errorLogger } = require('./middlewares/logger'); // им�
 const cors = require('cors') // подключаем бибилиотреку с работай ошибки cors
 const cookieParser = require('cookie-parser'); // библиотека для работы с куками
 
-const {PORT = 4000} = process.env; // вынесли порт по умолчанию в переменную окружения проекта
+// переменные окружения
+const {
+  PORT = 4000,
+  MONGO_URL = 'mongodb://127.0.0.1:27017'
+} = process.env;
 
 // подключение к БД
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+mongoose.connect(`${MONGO_URL}/mestodb`, {
   useNewUrlParser: true,
 })
 .then(() => {
