@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 158.160.10.17
 
-Frontend https://...
+Frontend https://osmimesto.nomoredomains.work/
 
-Backend https://...
+Backend https://osmimesto.nomoredomains.work/api/
