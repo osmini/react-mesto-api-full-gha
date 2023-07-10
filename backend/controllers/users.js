@@ -77,6 +77,7 @@ const login = (req, res, next) => {
         // создаем и отдаем токен
         const token = jwt.sign({_id: user._id}, JWT_SECRET, {expiresIn: '7d'});
         // Api и front находятся на разных доменах
+        // secure отпрака куки только по https
         res.cookie('jwt', token, {
           maxAge: 604800,
           httpOnly: true,

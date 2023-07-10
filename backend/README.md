@@ -12,5 +12,6 @@
 
 ## Запуск проекта
 
-`npm run start` — запускает сервер   
-`npm run dev` — запускает сервер с hot-reload
+IP  158.160.10.17
+Frontend  https://osmimesto.nomoredomains.work/
+Backend  https://osmimesto.nomoredomains.work/api/
