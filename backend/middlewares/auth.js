@@ -1,12 +1,16 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config(); // импорт для работы с env
 const UnauthorizedError = require('../errors/unauthorizedError'); // подключаем класс ошибок 401
 
 module.exports = (req, res, next) => {
+  // переменные окружения
+  const { JWT_SECRET } = process.env;
+
   // достаём токен из куки
   const token = req.cookies.jwt;
 
   // убеждаемся, что он есть
-  if (!token ) {
+  if (!token) {
     throw new UnauthorizedError('Необходима авторизация');
   }
 
@@ -14,7 +18,7 @@ module.exports = (req, res, next) => {
 
   try {
     // попытаемся верифицировать токен
-    payload = jwt.verify(token, 'super-strong-secret');
+    payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     // отправим ошибку, если не получилось
     throw new UnauthorizedError('Необходима авторизация');

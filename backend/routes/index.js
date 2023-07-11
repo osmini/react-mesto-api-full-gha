@@ -6,7 +6,7 @@ const NotFoundErrors = require('../errors/notFoundErrors'); // подключа�
 const celebrates = require('../middlewares/celebrateUser'); // валидация приходящих на сервер данных
 
 // импорт всех контролеров для работы с пользователями
-const {createUser, login} = require('../controllers/users');
+const { createUser, login } = require('../controllers/users');
 
 // обработка запроса регистрации нового пользователя
 router.post('/signup', celebrates.login, createUser);
@@ -21,8 +21,8 @@ router.use('/', usersRouters); // подключаем обработку роу
 router.use('/cards', usersCards); // подключаем обработку роутеров карточек
 
 // обработка несуществующего роута
-router.use((req, res, next) => {
-  throw new  NotFoundErrors('Маршрут не найден');
+router.use(() => {
+  throw new NotFoundErrors('Маршрут не найден');
 });
 
 module.exports = router;

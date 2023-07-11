@@ -8,35 +8,35 @@ const login = celebrate({
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string()
-  })
+    avatar: Joi.string(),
+  }),
 });
 
 // валидация id пользователя из параметра
 const getUser = celebrate({
   params: Joi.object().keys({
-    userId: Joi.objectId()
-  })
+    userId: Joi.objectId(),
+  }),
 });
 
 // обновление пользователя
 const updateUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30)
-  })
+    about: Joi.string().min(2).max(30),
+  }),
 });
 
 // обновление аватара
 const updateAvatar = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string()
-  })
+    avatar: Joi.string(),
+  }),
 });
 
 module.exports = {
   login,
   getUser,
   updateUser,
-  updateAvatar
+  updateAvatar,
 };
