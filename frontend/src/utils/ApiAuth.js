@@ -58,6 +58,18 @@ class ApiAuth {
       return this._checkResponse(res);
       })
   };
+
+  // выход из учетной записи
+  exitUser(){
+    return fetch(this._baseUrl + '/exit', {
+      credentials: 'include',
+      method: 'DELETE',
+      headers: this._headers,
+    })
+    .then(res => {
+      return this._checkResponse(res);
+      })
+    };
 }
 
 const apiAuth = new ApiAuth({ 

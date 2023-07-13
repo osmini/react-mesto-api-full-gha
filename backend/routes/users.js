@@ -1,7 +1,7 @@
 const router = require('express').Router(); // подключаем библиотеку express для работы с роутерами
 // импорт всех контролеров для работы с пользователями
 const {
-  getUsers, getUsersById, getInfoMe, updatetUsers, updatetAvatar,
+  getUsers, getUsersById, getInfoMe, updatetUsers, updatetAvatar, exitUser
 } = require('../controllers/users');
 // валидация приходящих на сервер данных
 const celebrates = require('../middlewares/celebrateUser');

@@ -8,7 +8,7 @@ const NotFoundErrors = require('../errors/notFoundErrors'); // подключа�
 const ConflictError = require('../errors/conflictError'); // подключаем класс ошибок 409
 
 // переменные окружения
-const { JWT_SECRET, SALT_ROUNDS } = process.env;
+const { JWT_SECRET, SALT_ROUNDS, NODE_ENV } = process.env;
 
 // регистрация нового пользователя
 // next используется для централизованной обработки ошибок
@@ -74,7 +74,9 @@ const login = (req, res, next) => {
           return;
         }
         // создаем и отдаем токен
-        const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' });
         // Api и front находятся на разных доменах
         // secure отпрака куки только по https
         res.cookie('jwt', token, {
@@ -89,6 +91,13 @@ const login = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+// выход из учетной записи
+const exitUser = (req, res, next) => {
+  console.log ('удаляю куки');
+  res.status(200).clearCookie('jwt');
+  next();
 };
 
 // получить всех пользователей
@@ -183,6 +192,7 @@ const updatetAvatar = (req, res, next) => {
 module.exports = {
   createUser,
   login,
+  exitUser,
   getUsers,
   getUsersById,
   getInfoMe,

@@ -4,7 +4,7 @@ const UnauthorizedError = require('../errors/unauthorizedError'); // подкл�
 
 module.exports = (req, res, next) => {
   // переменные окружения
-  const { JWT_SECRET } = process.env;
+  const { NODE_ENV, JWT_SECRET } = process.env;
 
   // достаём токен из куки
   const token = req.cookies.jwt;
@@ -18,7 +18,10 @@ module.exports = (req, res, next) => {
 
   try {
     // попытаемся верифицировать токен
-    payload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(
+      token,
+      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'
+    );
   } catch (err) {
     // отправим ошибку, если не получилось
     throw new UnauthorizedError('Необходима авторизация');

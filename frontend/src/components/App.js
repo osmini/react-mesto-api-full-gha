@@ -28,7 +28,7 @@ function App() {
   const [cards, setCards] = useState([]); //карточки места
   const [currentUser , setCurrentUser ] = useState({}); // текущий пользователя
   const [isLoading, setIsLoading] = useState(false); // состояние кнопки при загрузки данных на сервер
-  const [loggenIn, setLoggenIn] = useState(null); // стейт логина
+  const [loggenIn, setLoggenIn] = useState(false); // стейт логина
   const [registrIn, setRegistrIn] = useState(false); // стейт регистрации
   const [userData, setUserData] = useState(''); // стейт информации о пользователе
   const [isPageLoading, setIsPageLoading] = useState(true); // стейт отвечающий за состояние загрузки страницы
@@ -220,9 +220,12 @@ function App() {
 
   // запрос  на авторизацию
   function handleLogin(registerName, registerPassword){
+    if (localStorage.getItem('isLoggedIn')) {
+      navigate('/');
+    } 
     ApiAuth.postAutoriseUser(registerName, registerPassword)
     .then(() =>{
-
+    
       setLoggenIn(true);
       setUserData(registerName);
       navigate('/');
@@ -231,33 +234,42 @@ function App() {
       const result = {
         popup: true,
         registr: false
-      }
-      handleTooltipPopupOpen(result)
+      };
+      handleTooltipPopupOpen(result);
+      setRegAnsve('Что-то прошло не так! Попробуйте ещё раз.');
     })
   }
 
   // проверяем токен при первой загрузки
+  // проверка идет на стороне бэка
   useEffect(()=>{
 
-    ApiAuth.getCheakTokenUser()
-    .then((data) =>{
-      if(data){
-        setLoggenIn(true);
-        setUserData(data.data.email);
-        navigate(location.pathname);
-      } else {
+      ApiAuth.getCheakTokenUser()
+      .then((data) =>{
+        if(data){
+          setLoggenIn(true);
+          if (data.email){
+            setUserData(data.email);
+          };
+          navigate(location.pathname);
+        }
+      })
+      .catch((err) => {
         setLoggenIn(false);
-      }
-    })
-    .catch((err) => {
-      setLoggenIn(false);
-      console.error(err);
-    })
+        console.error(err);
+      })
   }, []);
+
 
   // обработчик выхода из профиля
   function onSignOut(){
-    localStorage.removeItem('jwt');
+    ApiAuth.exitUser()
+    .then(() =>{
+      setLoggenIn(false);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
   }
 
   return (

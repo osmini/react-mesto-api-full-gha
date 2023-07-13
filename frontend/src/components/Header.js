@@ -21,6 +21,11 @@ function Header(props){
     navigate('/sign-in');
   }
 
+  // обработчик перехода на авторизацию
+  function signIt(){
+    navigate('/sign-in');
+  }
+
   return (
     <header className="header">
       <img className="header__logo" src={logo} alt="логотип Mesto"/>
@@ -28,7 +33,7 @@ function Header(props){
         {location.pathname === "/" && <p className="header__menu-login"> { userData }</p>}
         <Routes>
 
-          <Route path="/sign-up" element={ <button onClick={signOut} className="header__menu-link animation-hover"> Войти </button>}/>
+          <Route path="/sign-up" element={ <button onClick={signIt} className="header__menu-link animation-hover"> Войти </button>}/>
           <Route path="/sign-in" element={ <button onClick={registrOut} className="header__menu-link animation-hover"> Регистрация </button>}/>
           <Route path="/" element={ <button onClick={signOut} className="header__menu-link animation-hover"> Выйти </button>}/>
 

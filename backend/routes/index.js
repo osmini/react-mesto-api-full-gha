@@ -6,13 +6,16 @@ const NotFoundErrors = require('../errors/notFoundErrors'); // подключа�
 const celebrates = require('../middlewares/celebrateUser'); // валидация приходящих на сервер данных
 
 // импорт всех контролеров для работы с пользователями
-const { createUser, login } = require('../controllers/users');
+const { createUser, login, exitUser} = require('../controllers/users');
 
 // обработка запроса регистрации нового пользователя
 router.post('/signup', celebrates.login, createUser);
 
 // обработка запроса авторизации пользователя
 router.post('/signin', celebrates.login, login);
+
+// обработка запроса выхода из учетной записи
+router.post('/exit',  exitUser);
 
 // роуты ниже этой записи защищены от входа незарегистрированных пользователей
 router.use(auth);
